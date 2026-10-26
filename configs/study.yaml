@@ -1,0 +1,31 @@
+# Parameters of the study run (fasterrcnnv100-12). The CLI defaults equal these values.
+checkpoint: fasterrcnnv100-12.pth          # release asset, sha256 in docs/checkpoint.md
+inference:
+  tile_px: 512
+  step_px: 256                             # 50 % window overlap
+  score_threshold: 0.3                     # --conf
+  tile_nms_iou: 0.5                        # --tile-nms
+  global_nms_iou: 0.2                      # --global-nms
+  edge_mode: resize                        # as in the study; the repository default is pad
+  ground_resolution_m: [0.33, 0.4]
+assignment:
+  min_coverage: 0.20                       # --coverage
+  rule: largest intersection area among boxes covering >= min_coverage
+evaluation:
+  split: Unseen
+  source: GOV
+  min_box_area_px: 1000
+  min_boxes_per_tile: 10
+  score_threshold: 0.3
+  iou: 0.5
+  classes: analysis                        # 10 classes; "network" = 11 outputs
+training:
+  splits: {train: Data, validation: Unseen}
+  sources: {train: [GOV, ESRI], validation: [GOV]}
+  epochs: 30
+  early_stopping_patience: 8
+  batch_size: 16
+  optimizer: {type: SGD, lr: 0.01, momentum: 0.9, weight_decay: 0.0005}
+  schedule: {type: OneCycleLR, max_lr: 0.01, pct_start: 0.2, anneal: cos}
+  augmentation: [color_jitter p=0.5, gaussian_blur p=0.1, random rotation copy per tile]
+  selection_metric: overall weighted F1 on the validation tiles

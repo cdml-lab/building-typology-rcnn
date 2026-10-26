@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "building-typology-rcnn: building-form classification of building footprints from aerial orthophotos"
+version: 1.0.0
+date-released: 2026-10-26
+license: MIT
+authors:
+  - name: "Author removed for anonymity; will be added after the article is accepted"
+repository-code: "https://github.com/cdml-lab/building-typology-rcnn"
+keywords: [urban morphology, building typology, Faster R-CNN, aerial imagery]
